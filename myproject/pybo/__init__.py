@@ -1,22 +1,5 @@
 from flask import Flask
 
-# 플라스크 애플리케이션을 생성하는 코드
-# __name__이라는 변수에는 모듈명이 담긴다.
-# 즉, 이 파일이 실행되면 pybo.py라는 모듈이 실행되는 것이므로
-# __name__ 변수에는 'pybo'라는 문자열이 담긴다.
-
-'''
-app = Flask(__name__)
-'''
-
-# 특정 주소에 접속하면 바로 다음 줄에 있는 함수를 호출하는 플라스크의 데코레이터이다.
-# 데코레이터란 기존 함수를 변경하지 않고 추가 기능을 덧붙일 수 있도록 해주는 함수이다.
-'''
-@app.route('/')
-def hello_pybo():
-    return 'Hello, Pybo!'
-'''
-
 # 플라스크는 app 객체를 사용하여 여러 가지 설정을 진행한다. 
 # 그런데 이와 같은 방식으로 app 객체를 전역으로 사용하면 프로젝트 규모가 커질수록 문제가 발생할 확률이 높아진다.
 # 순환 참조(circular import) 오류가 대표적이다.
@@ -28,9 +11,10 @@ def create_app():
 
     app = Flask(__name__)
 
-    @app.route('/')
-    def hello_pybo():
-        return 'Hello, Pybo!'
+    # create_app 함수에 등록되었던 hello_pybo 함수 대신 블루프린트를 사용하도록 변경
+    # 블루프린트를 사용하기 위해 'main_views.py' 파일에서 생성한 블루프린트 객체인 bp를 등록
+    from .views import main_views
+    app.register_blueprint(main_views.bp)
     
     return app
 
