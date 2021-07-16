@@ -26,7 +26,7 @@ db.DateTime: 날짜와 시각
 # nullable: 속성에 빈값을 허용할 것인지를 결정한다.
 # default 값은 True로 빈값을 허용한다.
 
-class Question(db.Model()):
+class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text(), nullable=False)
