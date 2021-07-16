@@ -1,16 +1,19 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 
-# Blueprint 클래스로 객체를 생성할 때는 이름, 모듈명, URL 프리픽스 값을 전달해야 한다.
-# 'main': 블루프린트 객체의 이름인 'main'은 나중에 함수명으로 URL을 찾아주는 url_for 함수에서 사용된다.
-# __name__: 블루프린트 객체의 모듈명인 'main_views'
-# url_prefix='/': 블루프린트 객체에서 특정 파일('main_views.py')에 있는 함수의 애너테이션 URL 앞에 기본으로 붙일 접두어 URL을 의미한다.
+from pybo.models import Question
+
 bp = Blueprint('main', __name__, url_prefix='/')
 
-# bp는 Blueprint 클래스로 생성한 객체를 의미한다.
 @bp.route('/hello')
 def hello_pybo():
     return 'Hello, Pybo!'
 
 @bp.route('/')
 def index():
-    return 'Pybo index'
+    # 질문 목록은 Question.query.order_by로 얻을 수 있으며, 
+    # 이 때 order_by 함수는 조회 결과를 정렬해준다.
+    # 즉, Question.create_date.desc() 코드는 조회된 질문 목록을 '작성일시 기준 역순으로 정렬하라'라는 의미
+    question_list = Question.query.order_by(Question.create_date.desc())
+    # render_template 함수는 템플릿 파일을 화면에 그려준다. 조회된 질문 목록을 템플릿으로 전달하면
+    # 전달받은 데이터(question_list)로 화면을 구성한다.
+    return render_template('question/question_list.html', question_list=question_list)
