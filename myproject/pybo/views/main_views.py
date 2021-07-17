@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, url_for
+from werkzeug.utils import redirect
 
 from pybo.models import Question
 
@@ -8,12 +9,13 @@ bp = Blueprint('main', __name__, url_prefix='/')
 def hello_pybo():
     return 'Hello, Pybo!'
 
+# redirect: 입력받은 URL로 리다이렉트 해준다.
+# url_for: 라우트가 설정된 함수명으로 URL을 역으로 찾아준다.
 @bp.route('/')
 def index():
-    # 질문 목록은 Question.query.order_by로 얻을 수 있으며, 
-    # 이 때 order_by 함수는 조회 결과를 정렬해준다.
-    # 즉, Question.create_date.desc() 코드는 조회된 질문 목록을 '작성일시 기준 역순으로 정렬하라'라는 의미
-    question_list = Question.query.order_by(Question.create_date.desc())
-    # render_template 함수는 템플릿 파일을 화면에 그려준다. 조회된 질문 목록을 템플릿으로 전달하면
-    # 전달받은 데이터(question_list)로 화면을 구성한다.
-    return render_template('question/question_list.html', question_list=question_list)
+    # url_for 함수에 전달된 'question._list'는 question, _list 순서로 해석되어 함수명을 찾는다.
+    # question은 등록된 블루프린트 이름, _list는 블루프린트에 등록된 함수명이다.
+    # 현재 _list 함수에 등록된 라우트는 @bp.route('/list/')이므로 
+    # url_for('question._list')는 bp 객체의 url_prefix인 '/question/'과 '/list/'가 더해진
+    # '/question/list/' URL을 반환한다.
+    return redirect(url_for('question._list'))
