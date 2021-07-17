@@ -31,5 +31,8 @@ def create_app():
 
     from .views import question_views
     app.register_blueprint(question_views.bp)
+
+    from .views import answer_views
+    app.register_blueprint(answer_views.bp)
     
     return app
