@@ -12,7 +12,13 @@ bp = Blueprint('question', __name__, url_prefix='/question')
 
 @bp.route('/list/')
 def _list():
+    # localhost:5000/question/list/?page=5인 URL에서 GET 방식으로 요청했다면
+    # page 값 5를 받는다.
+    # localhost:5000/question/list인 URL에 page 값이 없다면 default=1을 자동으로 적용
+    page = request.args.get('page', type=int, default=1)
     question_list = Question.query.order_by(Question.create_date.desc())
+    # paginate 함수는 조회한 데이터를 감싸 Pagination 객체로 반환한다.
+    question_list = question_list.paginate(page, per_page=10)
     return render_template('question/question_list.html', question_list=question_list)
 
 @bp.route('/detail/<int:question_id>/')
