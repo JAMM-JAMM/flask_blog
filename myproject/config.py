@@ -10,3 +10,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 FLASK_APP = 'pybo'
 FLASK_ENV = 'development'
+
+# 사실 SECRET_KEY = 'dev'는 위험한 설정이다.
+# 실제 서비스를 운영할 때에는 "dev"처럼 유추하기 쉬운 문자열을 입력하면 안된다.
+# 현재는 개발환경이기 때문에 괜찮지만, 실제 서비스 운영 환경에서는 SECRET_KEY를 변경해줘야 한다.
+SECRET_KEY = 'dev'
