@@ -5,7 +5,7 @@ from werkzeug.utils import redirect
 from .. import db
 
 from ..models import Question
-from ..forms import QuestionForm
+from ..forms import QuestionForm, AnswerForm
 
 bp = Blueprint('question', __name__, url_prefix='/question')
 
@@ -17,8 +17,9 @@ def _list():
 
 @bp.route('/detail/<int:question_id>/')
 def detail(question_id):
+    form = AnswerForm()
     question = Question.query.get(question_id)
-    return render_template('question/question_detail.html', question=question)
+    return render_template('question/question_detail.html', question=question, form=form)
 
 @bp.route('/create/', methods=['GET', 'POST'])
 def create():
