@@ -18,3 +18,7 @@ class UserCreateForm(FlaskForm):
     ])
     password2 = PasswordField('비밀번호 확인', validators=[DataRequired('비밀번호 확인은 필수입력 항목입니다.')])
     email = EmailField('이메일', validators=[DataRequired('이메일은 필수입력 항목입니다.'), Email()])
+
+class UserLoginForm(FlaskForm):
+    email = StringField('이메일', validators=[DataRequired('이메일은 필수입력 항목입니다.'), Length(min=3, max=25)])
+    password = PasswordField('비밀번호', validators=[DataRequired('비밀번호는 필수입력 항목입니다.')])
