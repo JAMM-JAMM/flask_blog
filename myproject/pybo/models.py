@@ -31,6 +31,20 @@ class Question(db.Model):
     subject = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text(), nullable=False)
     create_date = db.Column(db.DateTime(), nullable=False)
+    '''
+    user_id 필드는 User 모델 데이터의 id값을 Question 모델에 포함시키기 위함이다.
+    db.ForeignKey의 첫 번째 인수 user.id는 User 모델의 id값을 의미한다.
+    db.ForeignKey의 두 번재 인수 ondelete='CASCADE'는 이 질문과 연결되어 있는
+    User 모델의 데이터가 데이터베이스 명령으로 삭제되면 Questioin 모델 데이터도 함께 삭제될 수 있게 해주는 설정이다.
+    '''
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=True, server_default='1')
+    '''
+    user 필드는 Question 모델에서 User 모델을 참조하기 위한 필드이며, db.relationship 함수로 필드를 추가
+    db.relationship의 첫 번째 인수 User는 참조하려는 모델을 의미한다.
+    db.relationship의 두 번째 인수 backref 매개변수는 User 모델 데이터를 통해 Question 모델 데이터를 참조하려고 설정한 것이다.
+    -> question.user.username 처럼 Question 모델 객체를 question을 통해 User 모델 데이터를 참조할 수 있다.
+    '''
+    user = db.relationship('User', backref=db.backref('question_set'))
 
 # 답변 모델 속성
 # id: 답변 데이터의 고유 번호
