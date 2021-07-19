@@ -37,7 +37,7 @@ class Question(db.Model):
     db.ForeignKey의 두 번재 인수 ondelete='CASCADE'는 이 질문과 연결되어 있는
     User 모델의 데이터가 데이터베이스 명령으로 삭제되면 Questioin 모델 데이터도 함께 삭제될 수 있게 해주는 설정이다.
     '''
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=True, server_default='1')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     '''
     user 필드는 Question 모델에서 User 모델을 참조하기 위한 필드이며, db.relationship 함수로 필드를 추가
     db.relationship의 첫 번째 인수 User는 참조하려는 모델을 의미한다.
@@ -88,6 +88,8 @@ class Answer(db.Model):
     question = db.relationship('Question', backref=db.backref('answer_set', cascade='all, delete-orphan'))
     content = db.Column(db.Text(), nullable=False)
     create_date = db.Column(db.DateTime(), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    user = db.relationship('User', backref=db.backref('answer_set'))
 
 # 유저 모델 속성
 # id: 유저 데이터의 고유 번호

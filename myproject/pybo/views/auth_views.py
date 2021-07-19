@@ -6,6 +6,8 @@ from pybo import db
 from pybo.forms import UserCreateForm, UserLoginForm
 from pybo.models import User
 
+import functools
+
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/signup/', methods=['GET', 'POST'])
@@ -75,3 +77,16 @@ session의 값을 읽을 수 없으므로 g.user가 None이 될 것이다.
 def logout():
     session.clear()
     return redirect(url_for('main.index'))
+
+'''
+@login_required 애너테이션을 지정하면 login_required 데코레이터 함수가 먼저 실행된다.
+-> login_required 함수는 g.user가 있는 지를 조사하여 없으면 로그인 URL로 리다이렉트하고
+g.user가 있으면 원래 함수를 그대로 실행
+'''
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+    return wrapped_view
