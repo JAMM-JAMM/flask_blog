@@ -46,6 +46,9 @@ def create_app():
     from .views import auth_views
     app.register_blueprint(auth_views.bp)
 
+    from .views import comment_views
+    app.register_blueprint(comment_views.bp)
+
     # Filter
     from .filter import format_datetime
     # datetime이라는 이름으로 필터 등록

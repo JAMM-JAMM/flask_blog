@@ -43,3 +43,24 @@ class User(db.Model):
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+
+# 댓글 모델 속성
+# id: 댓글 고유 번호
+# user_id: 댓글 작성자 (User 모델과 관계를 가짐)
+# content: 댓글 내용
+# create_date: 댓글 작성일시
+# modify_date: 댓글 수정일시
+# question_id: 댓글의 질문 (Question 모델과 관계를 가짐)
+# answer_id: 댓글의 답변 (Answer 모델과 관계를 가짐)
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
+    user = db.relationship('User', backref=db.backref('comment_set'))
+    content = db.Column(db.Text(), nullable=False)
+    create_date = db.Column(db.DateTime(), nullable=False)
+    modify_date = db.Column(db.DateTime(), nullable=True)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id', ondelete="CASCADE"), nullable=True)
+    question = db.relationship('Question', backref=db.backref('comment_set'))
+    answer_id = db.Column(db.Integer, db.ForeignKey('answer.id', ondelete="CASCADE"), nullable=True)
+    answer = db.relationship('Answer', backref=db.backref('comment_set'))
