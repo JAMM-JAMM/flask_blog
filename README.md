@@ -35,3 +35,5 @@
 ## System Architecture
 
 <br />
+
+<img width="579" alt="스크린샷 2021-07-27 오후 8 16 17" src="https://user-images.githubusercontent.com/70768269/127146662-51b2fecb-acf7-4b14-872b-bdab9af717ec.png">
