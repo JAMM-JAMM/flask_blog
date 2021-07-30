@@ -2,7 +2,7 @@
 
 <br/>
 
-http://omakase-cs.kr/question/list/
+http://omakase-cs.kr
 
 <br/>
 
