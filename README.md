@@ -2,6 +2,10 @@
 
 <br/>
 
+http://omakase-cs.kr/question/list/
+
+<br/>
+
 ## 프로젝트 소개
 
 <br/>
@@ -27,7 +31,7 @@
 - Flask-SQlAlchemy
 - SQLite (PostgreSQL로 변경 예정)
 - Jinja, Bootstrap
-- AWS (Ubuntu 20.04)
+- AWS Lightsail(Ubuntu 20.04)
 - Nginx, Gunicorn
 
 <br/>
