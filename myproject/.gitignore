@@ -3,6 +3,8 @@ pybo.db
 *.pyc
 __pycache__
 logs
+migrations/
+config/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
